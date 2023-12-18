@@ -1,0 +1,58 @@
+<?php
+require_once 'connexion.php';
+require_once 'Category.php';
+
+class CategoryDAO{
+    private $db;
+    public function __construct(){
+        $this->db = Database::getInstance()->getConnection(); 
+    }
+
+    public function get_categories(){
+        $query = "SELECT * FROM categorie";
+
+        // if (!empty($where)) {
+        //     $query .= " WHERE " . $where;
+        // }
+        
+
+        $stmt = $this->db->query($query);
+        $stmt -> execute();
+        $CategoriesData = $stmt->fetchAll();
+        $Categories = array();
+        foreach ($CategoriesData as $C) {
+            $Categories[] = new Category(
+                $P["deleted_at"],
+                $P["description"],
+                $P["id"],
+                $P["img"],
+                $P["nom"]);
+              
+        }
+        return $Categories;
+
+    }
+
+    public function insert_categories($Categories){
+        $query= "INSERT INTO products VALUES (0,'".$Categories->getImgs()."','".$Categories->getProductname()."',".$Categories->getBarcode().",".$Categories->getPurchase_price().",".$Categories->getFinal_price().",".$Categories->getPrice_offer().",'".$Categories->getDescrip()."',".$Categories->getMin_quantity().",".$Categories->getStock_quantity().",'".$Categories->getCategory_name()."',".$Categories->getBl().") ";
+       echo $query;
+        $stmt = $this->db->query($query);
+        $stmt -> execute();
+
+    }
+
+    public function update_product($Categories){
+        $query = "UPDATE `categorie` SET `img`='".$Categories->getImg()."',`etiquette`='".$Categories->getProductname()."',`barcode`=".$Categories->getBarcode().",`purchase_price`=".$Categories->getPurchase_price().",`final_price`=".$Categories->getFinal_price().",`price_offer`=".$Categories->getPrice_offer().",`descrip`='".$Categories->getDescrip()."',`min_quantity`=".$Categories->getMin_quantity().",`stock_quantity`=".$Categories->getStock_quantity().",`category_name`='".$Categories->getCategory_name()."',`bl`=".$Categories->getBl()." WHERE `reference`= ".$Categories->getReference();
+        echo $query;
+        $stmt = $this->db->query($query);
+        $stmt -> execute();
+    }
+
+    
+    
+}
+
+
+
+?>
+        
